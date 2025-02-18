@@ -2,14 +2,18 @@ import React, { useState } from "react";
 
 import "./App.css";
 
-
 function App() {
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault(); 
+    event.preventDefault();
     console.log(userInfo);
+    localStorage.setItem('user',JSON.stringify(userInfo))
     setUserInfo({ name: "", email: "", password: "" });
   };
-  const [userInfo, setUserInfo] = useState({name:"",email:"",password:""});
+  const [userInfo, setUserInfo] = useState({
+    name: "",
+    email: "",
+    password: "",
+  });
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) =>
     setUserInfo({ ...userInfo, [event.target.name]: event.target.value });
@@ -30,7 +34,7 @@ function App() {
 
         <label htmlFor="email">Email</label>
         <input
-          type="text"
+          type="email"
           id="email"
           name="email"
           value={userInfo.email}
@@ -39,7 +43,7 @@ function App() {
 
         <label htmlFor="password">Password</label>
         <input
-          type="text"
+          type="password"
           id="password"
           name="password"
           value={userInfo.password}
