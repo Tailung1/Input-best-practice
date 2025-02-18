@@ -6,7 +6,15 @@ function App() {
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     console.log(userInfo);
-    localStorage.setItem('user',JSON.stringify(userInfo))
+    localStorage.setItem("user", JSON.stringify(userInfo));
+    if (userInfo.name === "") {
+      setErrors({ ...errors, name: "Name is Required" });
+      return;
+    }
+    if (userInfo.name.length <3) {
+      setErrors({ ...errors, name: "Name must be at least 3 charachters" });
+      return;
+    }
     setUserInfo({ name: "", email: "", password: "" });
   };
   const [userInfo, setUserInfo] = useState({
@@ -14,9 +22,13 @@ function App() {
     email: "",
     password: "",
   });
+  const [errors, setErrors] = useState({ name: "", email: "", password: "" });
 
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) =>
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setUserInfo({ ...userInfo, [event.target.name]: event.target.value });
+    setErrors({...errors,[event.target.name]:""});
+  }
+    ;
   return (
     <>
       <form
@@ -31,10 +43,13 @@ function App() {
           value={userInfo.name}
           onChange={handleChange}
         />
+        {errors.name && (
+          <span style={{ color: "red"}}>{errors.name}</span>
+        )}
 
         <label htmlFor="email">Email</label>
         <input
-          type="email"
+          type="text"
           id="email"
           name="email"
           value={userInfo.email}
